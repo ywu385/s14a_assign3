@@ -1,12 +1,28 @@
 from flask import Flask, request, render_template, redirect
 import json
+from flask_sqlalchemy import SQLAlchemy
 
-
+db = SQLAlchemy()
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://doadmin:password@db-postgresql-s14a-do-user-14294326-0.b.db.ondigitalocean.com:25060/s14a'
+db.init_app(app)
+# # db = sqlalchemy(app)
+
+# engine = sqlalchemy.create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
+
+# try:
+#     with engine.connect() as connection:
+#         print("Connection successful!")
+# except Exception as e:
+#     print("Connection failed!")
+#     print(str(e))
+
+
 links = [
     {"label": "Home", "url": "/home"},
     {"label": "About", "url": "/about"},
-    {"label": "List", "url": "/list"}
+    {"label": "Users", "url": "/Users"},
+    {'label':'Register', 'url':'/register'}
 ]
 
 app.debug = True
@@ -26,7 +42,7 @@ def home():
 def about():
     return render_template('about.html',navigation = links, header='About')
 
-@app.route("/list")
+@app.route("/Users")
 def list():
     with open('data/comment_table.json','r') as f:
         data = json.load(f)
@@ -36,33 +52,19 @@ def list():
 def success():
     return render_template('success.html',header='Success!')
 
-@app.route("/contact", methods = ['GET','POST'])
+@app.route("/register", methods = ['GET','POST'])
 def contact():
     if request.method == 'POST':
-        name = request.form.get('name')
         email = request.form.get('email')
-        comments = request.form.get('comments')
+        comments = request.form.get('phone_number')
 
-        data = {'name':name,
-                'email':email,
-                'comments':comments}
+        data = {'email':email,
+                'phone_number':phone_number}
         
-        # Adding data into JSON file
-        with open('data/comment_table.json', 'a+') as f:
-            f.seek(0)
-            try:
-                old_data = json.load(f)
-            except ValueError:
-                old_data = []
-
-            old_data.append(data)
-
-        with open('data/comment_table.json','w') as f:
-            json.dump(old_data,f)
-
+     # Append into database here
         return redirect('/success')
     
-    return render_template('Form.html', header='Post Your Comments')
+    return render_template('Form.html', header='Register')
 
 @app.route("/registration", methods = ['GET','POST'])
 def registration():

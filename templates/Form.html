@@ -12,20 +12,16 @@
 
   <form method = "POST" action ="/contact">
     <img class="mb-4" src="/static/icons8-morty-smith-96.png" width="96" height="96">
-    <h1 class="h3 mb-3 fw-normal">Contact Info</h1>
+    <h1 class="h3 mb-3 fw-normal">Register</h1>
 
     <div class="form-floating">
-      <input type="text" class="form-control" id="floatingName" name ="name" placeholder="Name">
-      <label for="floatingName">Name</label>
+      <input type="email" class="form-control" id="floatingEmail" name ="email" placeholder="name@example.com">
+      <label for="floatingName">Email Address</label>
     </div>    
     <div class="form-floating">
-      <input type="email" class="form-control" id="floatingEmail" name ="email" placeholder="name@example.com">
-      <label for="floatingEmail">Email address</label>
-    </div>
-    <div class="form-floating">
-      <textarea class="form-control" id="floatingComments" name = "comments" placeholder="Comments"></textarea>
-      <label for="floatingComments">Comments</label>
-    </div>   
+      <input type="tel" class="form-control" id="floatingPhoneNumber" name ="phone_number" placeholder="123-456-7890">
+      <label for="floatingEmail">Phone Number</label>
+    </div> 
     <button class="btn btn-primary w-100 py-2" type="submit">Submit</button>
     <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2023</p>
   </form>
