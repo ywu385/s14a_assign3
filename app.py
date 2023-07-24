@@ -123,7 +123,7 @@ def searchuser():
             user = User.query.filter_by(email=email).first()
 
             if user is None:
-                return redirect('/adduser?message=User+Email+not+found%2C+please+sign+up')
+                return redirect('/adduser')
             else:
                 return redirect('/updateuser/' + str(user.id))
 
@@ -136,6 +136,7 @@ def updateuser(user_id):
     with app.app_context():
         user = User.query.get(user_id) # query for user
 
+        # create variables based on fields 
         if request.method == 'POST':
             email = request.form.get('email')
             phone_number = request.form.get('phone_number') 
@@ -151,7 +152,7 @@ def updateuser(user_id):
             
             db.session.add(user)
             db.session.commit()
-
+            
             return redirect('/Users')
         
         else:
