@@ -1,23 +1,23 @@
 
 {% extends "base.html" %}
 
-{% block title %}URLLibrary{% endblock %}
+{% block title %}Register{% endblock %}
 
 {% block sub_title %}
 <h3 class="float-md-start mb-0">{{ header }}</h3>
 {% endblock %}
 
 {% block content %}
+<p>{{ message }}</p>
 
-<form method = "POST" action ="/registration">
+<form method = "POST" action ="/adduser">
   <div class="mb-3">
     <label for="exampleInputEmail1" class="form-label">Email address</label>
     <input type="email" class="form-control" id="exampleInputEmail1" name = 'email' aria-describedby="emailHelp">
-    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
   </div>
   <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Password</label>
-    <input type="password" class="form-control" name = 'password' id="exampleInputPassword1">
+    <label for="examplePhone_number" class="form-label">Phone Number</label>
+    <input type="Tel" class="form-control" name = 'phone_number' id="exampleInputPassword1">
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>

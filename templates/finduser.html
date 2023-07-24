@@ -1,0 +1,20 @@
+
+{% extends "base.html" %}
+
+{% block title %}Search User{% endblock %}
+
+{% block sub_title %}
+<h3 class="float-md-start mb-0">{{ header }}</h3>
+{% endblock %}
+
+{% block content %}
+
+<form method = "POST" action ="/searchuser">
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Find by Email</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" name = 'email' aria-describedby="emailHelp">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}

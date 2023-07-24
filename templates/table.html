@@ -11,15 +11,23 @@
 <table class="table", style="color: white;">
   <thead>
     <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Comments</th>
+      <th scope="col">id</th>
+      <th scope="col">Email</th>
+      <th scope="col">Phone Number</th>
+      <th scope="col">Updated At</th>
+      <th scope="col">Status</th>
+      <th scope="col">Admin</th>
     </tr>
   </thead>
   <tbody>
-    {% for row in data %}
+    {% for row in users%}
     <tr>
-      <td>{{ row.name }}</td>
-      <td>{{ row.comments }}</td>
+      <td>{{ row.id }}</td>
+      <td>{{ row.email }}</td>
+      <td>{{ row.phone_number }}</td>
+      <td>{{ row.updated_at }}</td>
+      <td>{{ row.status }}</td>
+      <td>{{ row.is_admin }}</td>
     </tr>
    </tbody>
   {% endfor %}
