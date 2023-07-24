@@ -145,5 +145,5 @@ def home():
     return render_template('index.html',navigation = links, header='Home')
 
 
-if __name__ == "__main__":
-    app.run(debug=True, port=5002)
+# if __name__ == "__main__":
+#     app.run(debug=True, port=5002)
