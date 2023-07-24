@@ -4,9 +4,14 @@ from flask_sqlalchemy import SQLAlchemy
 # from db_init import User
 from sqlalchemy import func
 
+import os
+
+db_username = os.getenv('DB_USERNAME')
+db_password = os.getenv('DB_PASSWORD')
+
 db = SQLAlchemy()
 app = Flask(__name__)
-postgres_string = 'postgresql://doadmin:AVNS_B3PZmgQl943DmavUsNZ@db-postgresql-s14a-do-user-14294326-0.b.db.ondigitalocean.com:25060/s14a?sslmode=require'
+postgres_string = f'postgresql://{db_username}:{db_password}@db-postgresql-s14a-do-user-14294326-0.b.db.ondigitalocean.com:25060/s14a?sslmode=require'
 app.config['SQLALCHEMY_DATABASE_URI'] = postgres_string
 db.init_app(app)
 
@@ -18,11 +23,22 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime, default = func.now(), onupdate=func.now())
     status = db.Column(db.Integer)
     is_admin = db.Column(db.Boolean)
+    orders = db.relationship('Order', backref='user', lazy=True)
 
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
+class Order(db.Model):
+    __tablename__='orders'
+    id = db.Column(db.Integer, primary_key= True, autoincrement = True)
+    item_name = db.Column(db.String)
+    item_count = db.Column(db.Integer)
+    total = db.Column(db.Integer)
+    user_name = db.Column(db.Integer, db.ForeignKey('users.id'))
 
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+   
 links = [
     {"label": "Home", "url": "/home"},
     {"label": "Update Info", "url": "/searchuser"},
@@ -32,6 +48,16 @@ links = [
 ]
 
 app.debug = True
+
+
+@app.route('/orders')
+def orders():
+    user_id = request.args.get('user.id')
+    orders = db.session.query(Order).filter(Order.user_name == user_id).all()
+    if orders is None:
+        orders = []
+    return render_template('orders.html', orders=orders, navigation=links,header ="Orders")
+
 
 @app.route("/")
 def index():
@@ -53,7 +79,7 @@ def registration():
         phone_number = request.form.get('phone_number')  
     
         with app.app_context():
-            existing_user = User.query.filter((User.email == email) | (User.phone_number == phone_number)).first()
+            existing_user = User.query.filter(User.email == email).first()
             if existing_user is not None:
                return "User with this email or phone number already exists!", 400
 
@@ -133,8 +159,6 @@ def updateuser(user_id):
             return render_template('updateuser.html', navigation = links, user = user, header='Update User')
 
 
-
-
 @app.route('/success')
 def success():
     return render_template('success.html',header='Success!')
@@ -145,5 +169,5 @@ def home():
     return render_template('index.html',navigation = links, header='Home')
 
 
-# if __name__ == "__main__":
-#     app.run(debug=True, port=5002)
+if __name__ == "__main__":
+    app.run(debug=True, port=5002)

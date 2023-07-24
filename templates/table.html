@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}URLLibrary{% endblock %}
+{% block title %}Users List{% endblock %}
 {% block sub_title %}
 <h3 class="float-md-start mb-0">{{header}}</h3>
 
@@ -17,10 +17,11 @@
       <th scope="col">Updated At</th>
       <th scope="col">Status</th>
       <th scope="col">Admin</th>
+      <th scope="col">Orders</th>
     </tr>
   </thead>
   <tbody>
-    {% for row in users%}
+    {% for row in users %}
     <tr>
       <td>{{ row.id }}</td>
       <td>{{ row.email }}</td>
@@ -28,10 +29,10 @@
       <td>{{ row.updated_at }}</td>
       <td>{{ row.status }}</td>
       <td>{{ row.is_admin }}</td>
+      <td><a href="{{ url_for('orders', user_id=row.id) }}">View Orders</a></td>
     </tr>
+    {% endfor %}
    </tbody>
-  {% endfor %}
 </table>
-
 
 {% endblock %}
